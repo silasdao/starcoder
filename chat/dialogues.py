@@ -91,7 +91,7 @@ class DialogueTemplate(ModelHubMixin):
         )
 
     def to_dict(self) -> Dict[str, Any]:
-        return {k: v for k, v in asdict(self).items()}
+        return dict(asdict(self).items())
 
     @classmethod
     def from_dict(cls, data):

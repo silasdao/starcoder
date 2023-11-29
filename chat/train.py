@@ -74,8 +74,10 @@ def main():
 
     # Log on each process a small summary
     logger.warning(
-        f"Process rank: {training_args.local_rank}, device: {training_args.device}, n_gpu: {training_args.n_gpu}"
-        + f" distributed training: {bool(training_args.local_rank != -1)}, 16-bits training: {training_args.fp16}"
+        (
+            f"Process rank: {training_args.local_rank}, device: {training_args.device}, n_gpu: {training_args.n_gpu}"
+            + f" distributed training: {training_args.local_rank != -1}, 16-bits training: {training_args.fp16}"
+        )
     )
     logger.info(f"Model parameters {model_args}")
     logger.info(f"Data parameters {data_args}")
@@ -106,7 +108,7 @@ def main():
     ###############
     raw_datasets = load_dataset(data_args.dataset_name)
     logger.info(
-        f"Training on the following datasets and their proportions: {[split + ' : ' + str(dset.num_rows) for split, dset in raw_datasets.items()]}"
+        f"Training on the following datasets and their proportions: {[f'{split} : {str(dset.num_rows)}' for split, dset in raw_datasets.items()]}"
     )
     with training_args.main_process_first(desc="Log a few random samples from the raw training set"):
         for index in random.sample(range(len(raw_datasets["train"])), 3):
@@ -244,7 +246,7 @@ def main():
         model_args.model_name_or_path,
         revision=model_args.model_revision,
         torch_dtype=torch_dtype,
-        use_cache=False if training_args.gradient_checkpointing else True,
+        use_cache=not training_args.gradient_checkpointing,
     )
     model.resize_token_embeddings(len(tokenizer))
 
