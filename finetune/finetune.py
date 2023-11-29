@@ -123,8 +123,7 @@ def print_trainable_parameters(model):
 
 def prepare_sample_text(example, input_column_name="prompt", output_column_name="completion"):
     """Prepare the text from a sample of the dataset."""
-    text = f"Question: {example[input_column_name]}\n\nAnswer: {example[output_column_name]}"
-    return text
+    return f"Question: {example[input_column_name]}\n\nAnswer: {example[output_column_name]}"
 
 
 class ConstantLengthDataset(IterableDataset):

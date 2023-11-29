@@ -28,7 +28,7 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(args.base_model_name_or_path)
 
     if args.push_to_hub:
-        print(f"Saving to hub ...")
+        print("Saving to hub ...")
         model.push_to_hub(f"{args.base_model_name_or_path}-merged", use_temp_dir=False, private=True)
         tokenizer.push_to_hub(f"{args.base_model_name_or_path}-merged", use_temp_dir=False, private=True)
     else:
